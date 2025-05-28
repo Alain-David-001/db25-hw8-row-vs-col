@@ -1,0 +1,7 @@
+SELECT AVG(trip_distance) FROM yellow_tripdata_2025_01 WHERE passenger_count >= 2;
+
+Result:
+3.6200502732203295
+
+Duration:
+177.595 ms
