@@ -4,16 +4,7 @@ FROM yellow_tripdata_2025_01
 GROUP BY payment_type
 ORDER BY COUNT(*) DESC;
 
-Duration:
-30.000 ms
-
 -- Query 2: Average trip distance for trips with 2+ passengers
 SELECT AVG(trip_distance) 
 FROM yellow_tripdata_2025_01 
 WHERE passenger_count >= 2;
-
-Result:
-3.6200502727933688
-
-Duration:
-26.000 ms
