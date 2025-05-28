@@ -1,19 +1,11 @@
--- Query 1: Count trips by payment type
-SELECT payment_type, COUNT(*) 
-FROM yellow_tripdata_2025_01 
-GROUP BY payment_type
-ORDER BY COUNT(*) DESC;
+-- Query 1: Count trips per hour
+Duration: 0.025 sec
 
-Duration:
-30.000 ms
+-- Query 2: Top 10 pickup zones by revenue
+Duration: 0.028 sec
 
--- Query 2: Average trip distance for trips with 2+ passengers
-SELECT AVG(trip_distance) 
-FROM yellow_tripdata_2025_01 
-WHERE passenger_count >= 2;
+-- Query 3: Exact trip lookup
+Duration: 0.224 sec
 
-Result:
-3.6200502727933688
-
-Duration:
-26.000 ms
+-- Query 4: Filtered scan with multiple conditions
+Duration: 0.238 sec
