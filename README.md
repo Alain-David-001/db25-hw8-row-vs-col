@@ -1,44 +1,98 @@
-# DB25 HW8: Row vs Column DB Comparison
+# db25-hw8-row-vs-col
 
-This project contains the implementation and results of Homework 8 for the DB25 course. The goal is to compare the performance of a row-oriented database (PostgreSQL) and a column-oriented database (ClickHouse) when executing the same analytical query on the same dataset.
+A benchmark project comparing **PostgreSQL** (row-oriented) and **ClickHouse** (column-oriented) using the same NYC taxi trip dataset and a balanced set of analytical queries.
 
-## 📂 Project Structure
+> **HW8** — Bonus multiplier: **3**
 
-```text
-.
-├── data/                   # Raw and processed dataset files
+---
+
+## 📌 Objective
+
+Evaluate and compare the strengths and weaknesses of two DBMS architectures by:
+
+- Running equivalent analytical queries on both systems
+- Measuring execution time
+- Documenting observations
+
+---
+
+## ⚙️ Systems Compared
+
+| System      | Storage Model  | Strengths                       |
+|-------------|----------------|---------------------------------|
+| PostgreSQL  | Row-oriented   | Point lookups, filters, logic   |
+| ClickHouse  | Column-oriented| Scans, grouping, aggregations   |
+
+---
+
+## 📁 Project Structure
+
+```
+db25-hw8-row-vs-col/
+├── data/                   # Raw dataset files (CSV, Parquet) [ignored in git]
 ├── postgres/
-│   ├── setup.sql           # SQL scripts to create tables and indexes in PostgreSQL
-│   ├── query.sql           # The analytical query run on PostgreSQL
-│   └── results.txt         # Execution time and output snapshot (to be added)
+│   ├── setup.sql           # Table schema for PostgreSQL
+│   ├── query.sql           # PostgreSQL-optimized queries
+│   └── results.txt         # Timings for each query
 ├── clickhouse/
-│   ├── setup.sql           # SQL scripts to create tables and indexes in ClickHouse
-│   ├── query.sql           # The analytical query run on ClickHouse
-│   └── results.txt         # Execution time and output snapshot (to be added)
-├── notes.md                # Observations, performance comparison, and explanations
-└── README.md               # This file
+│   ├── setup.sql           # Table schema for ClickHouse
+│   ├── query.sql           # ClickHouse-optimized queries
+│   └── results.txt         # Timings for each query
+├── notes.md                # Comparison and interpretation
+├── convert.py              # Script to convert Parquet to CSV
+├── HOW_TO_RUN.md           # Setup and benchmarking instructions
+├── .gitignore
+└── README.md
 ```
 
-## 📋 Task Summary
+---
 
-1. Launch one row-oriented (PostgreSQL) and one column-oriented (ClickHouse) database instance.
-2. Download and import the same dataset from [NYC TLC Trip Record Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page).
-3. Create indexes as needed.
-4. Write and execute a logically equivalent analytical query on both systems.
-5. Measure execution time and compare the results.
-6. Document and explain observations.
+## ▶️ Example Queries
 
-## 🧠 Goals
+All queries operate on the same dataset (`yellow_tripdata_2025_01`) and include:
 
-- Understand the performance trade-offs between row- and column-oriented databases
-- Practice working with large datasets and DBMS setup
-- Learn about query planning, indexing, and optimization in different systems
+- Trip count per hour
+- Top 10 revenue zones
+- Exact-match lookups
+- Complex multi-condition filters
 
-## ✅ Status
+Queries are tailored to test:
+- Full-table scans
+- Indexed lookups
+- Numeric aggregation
+- Conditional logic
 
-- [ ] Dataset downloaded and preprocessed
-- [ ] PostgreSQL setup complete
-- [ ] ClickHouse setup complete
-- [ ] Analytical query written
-- [ ] Execution results collected
-- [ ] Comparison documented
+---
+
+## 📈 Results Summary
+
+| Query | Focus                        | Winner        |
+|-------|------------------------------|---------------|
+| Q1    | Trips per hour               | ✅ ClickHouse |
+| Q2    | Top revenue zones            | ✅ ClickHouse |
+| Q3    | Exact trip lookup            | ✅ PostgreSQL |
+| Q4    | Complex filter scan          | 🤝 Nearly Even |
+
+See [`notes.md`](./notes.md) for details.
+
+---
+
+## 🧠 Observations
+
+- ClickHouse is vastly superior for wide scans and grouped aggregations.
+- PostgreSQL remains better for point lookups and index-driven queries.
+- Even logic-heavy filters are handled impressively well by ClickHouse.
+
+---
+
+## 📝 Reproduce the Benchmarks
+
+See [`HOW_TO_RUN.md`](./HOW_TO_RUN.md) for full setup and execution instructions.
+
+---
+
+## 🧑‍💻 Author
+
+**Alain David Escarrá García**  
+2nd-year Software, Data, and Technology student  
+Constructor University, Spring 2025
